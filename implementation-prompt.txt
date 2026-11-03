@@ -1,0 +1,46 @@
+Build an interactive educational website titled “From Pressure to Flow.”
+
+Purpose:
+Teach the relationship between pressure forces, shear stress, Newtonian viscosity, velocity gradients, and volumetric flow rate through computation and visualization.
+
+Assumptions:
+Steady, fully developed laminar flow of an incompressible Newtonian fluid in a horizontal, rigid circular pipe, with constant properties and no slip. Define L as the length of the fully developed section and ΔP as the pressure drop across that section. Initially support nonnegative driving inputs.
+
+Teaching sequence:
+1. Draw a cylindrical fluid element of radius r inside a pipe of radius R.
+2. Balance pressure force ΔPπr² against opposing shear force τ(r)2πrL.
+3. Derive shear-stress magnitude τ(r)=ΔPr/(2L).
+4. Connect it to Newtonian viscosity: τ(r)=−μ du/dr for positive flow.
+5. Integrate using u(R)=0 to obtain u(r)=ΔP(R²−r²)/(4μL).
+6. Integrate over annular area dA=2πr dr to obtain Q=πR⁴ΔP/(8μL).
+
+Show units directly beneath variables in the guided equations. Explain why each equation is dimensionally consistent.
+
+Interactive explorer:
+- Start with pressure drop as the only adjustable parameter.
+- Progressively unlock length, viscosity, and radius through guided experiments.
+- Keep velocity and shear-stress-magnitude plots visible together, with matching position axes.
+- Include a linked marker showing local velocity, velocity gradient, and shear-stress magnitude.
+- Provide a baseline overlay or locked-scale comparison so changes remain visually apparent.
+- Add separate “Hold pressure drop fixed” and “Hold flow rate fixed” modes. The dependent quantity must be a labeled calculated readout.
+- Display Q, ΔP, wall shear stress, and numerical pressure and wall shear forces with units.
+- Calculate internally in SI units. Clearly identify any display-unit conversions.
+- Include numeric inputs alongside sliders and a reset button.
+- Support desktop and mobile layouts.
+- Explain that changing inputs displays a new steady state, not a transient simulation.
+
+Optional final section:
+Introduce Reynolds number and entrance development only after the core lesson. Keep density controls and related calculations out of the main explorer.
+
+Validation:
+- Require positive radius, length, and viscosity.
+- Handle zero driving input.
+- Verify no slip, zero centerline velocity gradient, maximum shear-stress magnitude at the wall, and umax=2uaverage.
+- Compare numerical integration of the velocity profile with analytical Q.
+- Check pressure force against total wall shear force using a numerical tolerance.
+- Verify expected pressure, length, viscosity, and radius scaling.
+
+Documentation:
+Include clearly labeled sections for AI methods and prompts, critique decisions, model comparison, validation, references, my contributions, a YouTube presentation link, and the verbatim YouTube auto-generated transcript. Leave uncompleted sections clearly marked; do not invent results or references.
+
+Return the working implementation, instructions for running it, and an explanation of the equations, design choices, and limitations.

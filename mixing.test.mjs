@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {mixingScales,mixingSolve,analyticalProfile,numericalProfile,exactMixingIndex} from '../dist/mixing-physics.js';
+const near=(a,b,t=1e-10)=>assert.ok(Math.abs(a-b)<t,`${a} vs ${b}`);
+test('mixing SI scales match hand calculation',()=>{const p=mixingScales();near(p.residence,10);near(p.Fo,.1);near(p.pe,1000,1e-8);near(p.diffusionTime,100,1e-8);});
+test('inlet conditions are segregated with conserved equal mean',()=>{for(const n of [1,2,4,8]){const c=analyticalProfile(128,0,n);near(c.reduce((a,b)=>a+b)/128,.5);assert.ok(c.every(v=>v===0||v===1));near(exactMixingIndex(0,n),0);}});
+test('Fourier profiles satisfy symmetry, equal mass and bounded concentrations',()=>{for(const n of [1,2,4,8]){const c=analyticalProfile(128,.02,n);near(c.reduce((a,b)=>a+b)/128,.5);assert.ok(c.every(v=>v>=-1e-12&&v<=1+1e-12));}const c=analyticalProfile(128,.1,1);c.forEach((v,j)=>near(v+c[127-j],1));});
+test('numerical diffusion preserves mass and maximum principle',()=>{for(const Fo of [0,.0001,.1,10]){const c=numericalProfile(128,Fo,4,400);near(c.reduce((a,b)=>a+b)/128,.5,1e-9);assert.ok(c.every(v=>v>=-1e-10&&v<=1+1e-10));}});
+test('analytical and numerical outlet agree and refinement reduces error',()=>{const a=mixingSolve({cells:64,steps:100}),b=mixingSolve({cells:128,steps:400}),c=mixingSolve({cells:256,steps:1600});assert.ok(a.error>b.error&&b.error>c.error);assert.ok(b.error<.001);});
+test('diffusion increases mixing and ideal layers obey inverse-square timescale',()=>{assert.ok(exactMixingIndex(.2)>exactMixingIndex(.1));near(exactMixingIndex(.025,2),exactMixingIndex(.1,1));const a=mixingSolve(),b=mixingSolve({interfaces:4});near(a.targetTime/16,b.targetTime);near(a.diffusionTime/16,b.diffusionTime);});
+test('90 percent target is obtained from the defined RMS criterion',()=>{const p=mixingSolve();near(exactMixingIndex(p.diffusivity*p.targetTime/p.width**2),.9);near(p.targetLength,p.speed*p.targetTime);assert.ok(p.targetTime>20&&p.targetTime<25);});
+test('zero length gives initial profile; long residence gives uniform mixture',()=>{const a=mixingSolve({length:0}),b=mixingSolve({length:1});near(a.analyticalMixing,0);assert.ok(b.analytical.every(v=>Math.abs(v-.5)<1e-10));});
+test('invalid inputs and discretizations are rejected',()=>{for(const p of [{width:0},{speed:0},{length:-1},{diffusivity:-1},{width:NaN},{interfaces:3},{cells:65},{steps:0}])assert.throws(()=>mixingSolve(p),RangeError);});

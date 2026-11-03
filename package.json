@@ -1,0 +1,1 @@
+{"name":"from-pressure-to-flow","version":"1.1.0","private":true,"type":"module","scripts":{"test":"node --test tests/physics.test.mjs tests/mixing.test.mjs","start":"node serve.mjs","standalone":"node make-standalone.mjs"}}

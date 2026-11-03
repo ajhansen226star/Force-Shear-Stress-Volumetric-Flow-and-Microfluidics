@@ -1,0 +1,24 @@
+MICROFLUIDIC MIXING EXTENSION — October 15, 2026
+
+Student's request (verbatim):
+I want to go more in depth into microfluidics and  I want to create another tab that talks about computational and analytical approaches to look into mixing strategies within micro fluidics
+
+Implementation choices made by the AI assistant in response:
+- Add a separate Microfluidic mixing topic tab, preserving Flow fundamentals.
+- Connect momentum transport to passive species transport; keep molecular diffusivity D_m distinct from viscosity and diameter.
+- Retain units beneath the key timescale equations, and convert display units explicitly to SI.
+- Compare a cosine Fourier-series analytical solution with a conservative finite-volume, backward-Euler numerical solution of the same reduced 1D no-flux diffusion problem.
+- Convert downstream distance to residence time using a representative uniform speed. Do not claim to resolve a no-slip velocity profile, channel depth, secondary circulation, reactions, or actual mixer geometry.
+- Use an ideal segregated 0/1 inlet with mean concentration 0.5. Ideal layering changes the initial concentration geometry, not the velocity field or a device's hydraulic resistance.
+- Define the mixing index M=1-2*sigma for normalized concentration; distinguish it from a universal performance specification.
+- Compare numerical cell averages to analytical cell averages; show mesh/time-step controls, error, mass balance, bounds, and a refinement study.
+- Explain residence-time strategies, hydrodynamic focusing, split-and-recombine, herringbone/serpentine channels, and active forcing; separate conceptual discussion from computed results.
+- Cite university and primary research sources; do not invent device-performance data, CFD, experimental validation, or a second-model implementation.
+
+Common mixing reference:
+W=100e-6 m; L=0.01 m; U=0.001 m/s; D_m=1e-10 m^2/s; one inlet interface.
+Residence time=10 s; width-based Peclet number=1000; Fo=0.1; diffusion timescale W^2/D_m=100 s.
+Analytical mixing index approximately 66.44%; length to reach the defined 90% index approximately 22.27 mm.
+
+Required course evidence still to add:
+Exact model identifiers, a different model's independent implementation of the same chosen scope, critique and accept/reject records, comparison, reflection, actual presentation link, and verbatim YouTube auto-generated transcript.
